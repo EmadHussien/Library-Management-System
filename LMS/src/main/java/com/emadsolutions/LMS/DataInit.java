@@ -1,7 +1,5 @@
 package com.emadsolutions.LMS;
 
-import com.emadsolutions.LMS.admin.Admin;
-import com.emadsolutions.LMS.admin.AdminRepository;
 import com.emadsolutions.LMS.book.Book;
 import com.emadsolutions.LMS.book.BookRepository;
 import com.emadsolutions.LMS.patron.Patron;
@@ -15,13 +13,11 @@ public class DataInit {
 
     private final PatronRepository patronRepository;
     private final BookRepository bookRepository;
-    private final AdminRepository adminRepository;
 
     @Autowired
-    public DataInit(PatronRepository patronRepository, BookRepository bookRepository, AdminRepository adminRepository) {
+    public DataInit(PatronRepository patronRepository, BookRepository bookRepository) {
         this.patronRepository = patronRepository;
         this.bookRepository = bookRepository;
-        this.adminRepository = adminRepository;
     }
 
     @PostConstruct

@@ -3,6 +3,7 @@ package com.emadsolutions.LMS.borrowingRecord;
 import com.emadsolutions.LMS.DTOs.BorrowingToDTO;
 import com.emadsolutions.LMS.Exceptions.BookNotAvailableException;
 import com.emadsolutions.LMS.Exceptions.BorrowLimitExceededException;
+import com.emadsolutions.LMS.Exceptions.ConflictException;
 import com.emadsolutions.LMS.book.Book;
 import com.emadsolutions.LMS.book.BookService;
 import com.emadsolutions.LMS.patron.Patron;
@@ -11,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.util.Optional;
 
 @Service
 public class BorrowingRecordService {
@@ -39,6 +41,16 @@ public class BorrowingRecordService {
 
         Book theBook = bookService.getSingleBook(bookId);
         Patron thePatron = patronService.getSinglePatron(patronId);
+        Optional<BorrowingRecord> theRecord = borrowingRecordRepository.findByBook_IdAndPatron_Id(bookId,patronId);
+        if(theRecord.isPresent())
+        {
+            var record = theRecord.get();
+            if(record.getStatus() == BorrowingRecord.Status.BORROWED)
+            {
+                throw new ConflictException("Patron already have borrowed this book and should return");
+            }
+        }
+
         if(theBook.getAvailableCopies() < 1 )
         {
             throw new BookNotAvailableException("The book is not available for borrowing.");

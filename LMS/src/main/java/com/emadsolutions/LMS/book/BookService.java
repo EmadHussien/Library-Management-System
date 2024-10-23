@@ -54,8 +54,10 @@ public class BookService {
     public BookToDTO updateBook(Long id, UpdateBookToEntity book)
     {
         Book existingBook = getSingleBook(id);
+        var availableCopies = existingBook.getAvailableCopies();
         var bookUpdates = UpdateBookToEntityMapper.INSTANCE.toEntity(book);
         BeanUtils.copyProperties(bookUpdates, existingBook,"id","borrowingRecords","availableCopies");
+        existingBook.setAvailableCopies(availableCopies);
         var updatedBook = bookRepository.save(existingBook);
         return BookDTOMapper.INSTANCE.toDTO(updatedBook);
 
