@@ -6,6 +6,8 @@ import com.emadsolutions.LMS.book.Book;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
@@ -37,6 +39,7 @@ public class PatronService {
         return new PaginatedListDTO<>(patronDTOPage);
     }
 
+    @Cacheable(value = "patrons", key = "#id")
     public Patron getSinglePatron(Long id)
     {
         return patronRepository.findById(id)
@@ -49,6 +52,7 @@ public class PatronService {
         return PatronDTOMapper.INSTANCE.toDTO(savedPatron);
     }
     @Transactional
+    @CacheEvict(value = "patrons", key = "#id")
     public PatronToDTO updatePatron(Long id, UpdatePatronToEntity patron)
     {
         System.out.println("reqPatron: "+patron);
