@@ -1,4 +1,4 @@
-package com.emadsolutions.LMS;
+package com.emadsolutions.LMS.util;
 
 import com.emadsolutions.LMS.book.Book;
 import com.emadsolutions.LMS.book.BookRepository;
