@@ -29,6 +29,8 @@ This Library Management System is an API built using Spring Boot. It allows libr
 - Spring Boot
 - H2 Database
 - SpringBootTest, Mockito (for testing)
+- Spring Cache
+- Aspect-Oriented Programming (AOP)
 - Maven (for dependency management)
 
 ## API Endpoints
